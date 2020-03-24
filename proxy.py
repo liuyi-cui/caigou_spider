@@ -13,8 +13,7 @@ class SingleTon:
 
 
 class IpData(SingleTon):  # 同一时间只允许存在一个代理对象
-    url = "http://piping.mogumiao.com/proxy/api/get_ip_al?appKey=d35c2392d8374460ac122d742a98fbd7&" \
-          "count=2&expiryDate=0&format=1&newLine=2"
+    url = ""  # 代理接口
     ipdata = {}  # 当url count为1的时候，存入该属性
     ipdatas = []  # 当url count大于1的时候，存入该属性
 
