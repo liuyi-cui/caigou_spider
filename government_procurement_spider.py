@@ -1,7 +1,9 @@
 # 各个省市的采购供应商，代理机构，违法失信名单
 import datetime
+import math
 import time
 import json
+import re
 
 import requests
 from lxml import etree
@@ -144,6 +146,7 @@ def get_response_get(url, headers, proxies, ipdata, msg, trynum=0):
 
 
 class GuangDongSpider:
+
     base_url = 'http://www.ccgp-guangdong.gov.cn'
     supplier_url = 'http://www.ccgp-guangdong.gov.cn/organization/querySellerOrgList.do'  # 广东省政府采购供应商名录
     agency_url = 'http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do'  # 代理商名录
@@ -337,13 +340,264 @@ class GuangDongSpider:
             print('失信首页获取失败')
 
 
+class NeiMengGuSpider:
+
+    supplier_base_url = 'http://www.nmgp.gov.cn/category/supplier?supplier_id={}'
+    supplier_page_url = 'http://www.nmgp.gov.cn/zfcgwslave/web/index.php?r=new-data%2Fsupplier-list&' \
+                     'byf_page={}&page_size={}'  # 供应商名录
+    supplier_page_size = 18  # 一页显示18条信息
+    agency_base_url = 'http://www.nmgp.gov.cn/category/dljg?dljgid={}'
+    agency_url = 'http://www.nmgp.gov.cn/zfcgwslave/web/index.php?r=new-data%2Fdljg-list'
+    agency_page_size = 18
+
+
+    def get_suppliers(self):
+
+        def get_max_page():
+            page_index_url = self.supplier_page_url.format(1, self.supplier_page_size)  # 第一页
+            ipdata = IpData()
+            msg = ipdata.get_ipdata()
+            proxies = ipdata.get_proxy(msg)
+            response = get_response_get(page_index_url, headers, proxies, ipdata, msg)
+            if response:  # 解析最大页数
+                suppliers = response.json()
+                if len(suppliers) > 0:
+                    max_page = math.ceil(int(suppliers[-1])/self.supplier_page_size)
+                else:
+                    max_page = 0
+            else:
+                print('没有获取到最大页数')
+                max_page = 0
+            return max_page
+
+        def get_detail_info(url, headers, proxies, ipdata, msg):
+            childresponse = get_response_get(url, headers, proxies, ipdata, msg)
+            if childresponse:
+                print('详情页：', url)
+                selector = etree.HTML(childresponse.text, etree.HTMLParser())
+                supplier_info = {}
+                supplier_info.update({'source_url': url})
+                try:
+                    brief_info = selector.xpath(
+                        '//div[@class="dljgContainer"]/div[@class="dljg_infor"]/div/ul/li/p/span')
+
+                    for i in range(0, len(brief_info), 2):  # 获取了主要信息
+                        title = brief_info[i].xpath('text()')[0].strip()
+                        value = brief_info[i + 1].xpath('text()')[0].strip()
+                        supplier_info.update({title: value})
+                except Exception as e:
+                    fail_time = datetime.datetime.now()
+                    fail_time = trans_date_str(fail_time)
+                    with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                        f.write(f'{fail_time}:<{childresponse.request.url}>:该网址解析xpath失败：<{e}>')
+                # 获取基本信息  3个表...
+                try:
+                    table_info = selector.xpath('//div[@class="byf_table_jibenxinxi"]/table[1]')
+                    for table_ele in table_info:
+                        tr_ele = table_ele.xpath('tr')
+                        if len(tr_ele) > 1:
+                            for i in range(0, len(tr_ele)):
+                                detail_info = tr_ele[i].xpath('td/text()')
+                                if len(detail_info) > 1:
+                                    for i in range(0, len(detail_info), 2):
+                                        title = detail_info[i]
+                                        value = detail_info[i + 1]
+                                        supplier_info.update({title: value})
+                    table_info_type2 = selector.xpath(
+                        '//div[@class="byf_table_jibenxinxi"]/table[position()>1]')
+                    for table_info in table_info_type2:
+                        tr_ele = table_info.xpath('tr')
+                        if len(tr_ele) > 1:
+                            title = tr_ele[0]
+                            titles = title.xpath('td')
+                            titles = [i.xpath('text()')[0] for i in titles]
+                            for value_ele in tr_ele[1:]:
+                                values = value_ele.xpath('td')
+                                values = [i.xpath('text()')[0] if len(i.xpath('text()')) > 0 else '' for i
+                                          in values]
+                                supplier_info.update(dict(zip(titles, values)))
+                except Exception as e:
+                    fail_time = datetime.datetime.now()
+                    fail_time = trans_date_str(fail_time)
+                    with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                        f.write(f'{fail_time}:<{childresponse.request.url}>:该网址解析xpath失败：<{e}>')
+                with open('government_procurement/neimenggu/supplier.txt', 'a', encoding='utf-8')as f:
+                    f.write(json.dumps(supplier_info, ensure_ascii=False))
+                    f.write(',')
+
+        max_page = get_max_page()
+        for page in range(1, max_page+1):
+            print('供应商第{}页'.format(page))
+            page_url = self.supplier_page_url.format(page, self.supplier_page_size)
+            ipdata = IpData()
+            msg = ipdata.get_ipdata()
+            proxies = ipdata.get_proxy(msg)
+            response = get_response_get(page_url, headers, proxies, ipdata, msg)
+            if response:
+                suppliers = response.json()
+                if len(suppliers) > 0 and len(suppliers[0]) > 0:
+                    suppliers_ids = [i['ID'] for i in suppliers[0]]
+                    for supplier_id in suppliers_ids:
+                        supplier_url = self.supplier_base_url.format(supplier_id)
+                        get_detail_info(supplier_url, headers, proxies, ipdata, msg)
+                        time.sleep(3)
+
+
+    def get_agency(self):
+
+        def get_max_page():
+            ipdata = IpData()
+            msg = ipdata.get_ipdata()
+            proxies = ipdata.get_proxy(msg)
+            form_data = {
+                'byf_page': '1',  # 从首页获取最大页数
+                'page_size': '{}'.format(self.agency_page_size)
+            }
+            response = get_response_post(self.agency_url, headers, proxies, form_data, ipdata, msg)
+            if response:  # 获取到了首页的数据
+                info = response.json()
+                if len(info) > 1:
+                    max_page = int(info[1]) / self.agency_page_size
+                    max_page = math.ceil(max_page)
+                    return max_page
+                else:
+                    return 0
+            else:
+                return 0
+
+        def get_detail_info(url, headers, proxies, ipdata, msg):
+            childresponse = get_response_get(url, headers, proxies, ipdata, msg)
+            if childresponse:
+                print('详情页:', url)
+                selector = etree.HTML(childresponse.text, etree.HTMLParser())
+                agency_info = {}
+                agency_info.update({'source_url': url})
+                try:
+                    brief_info = selector.xpath(
+                        '//div[@class="dljgContainer"]/div[@class="dljg_infor"]/div/ul/li/p/span')
+
+                    for i in range(0, len(brief_info), 2):  # 获取了主要信息
+                        title = brief_info[i].xpath('text()')[0].strip()
+                        value = brief_info[i + 1].xpath('text()')[0].strip()
+                        agency_info.update({title: value})
+                except Exception as e:
+                    fail_time = datetime.datetime.now()
+                    fail_time = trans_date_str(fail_time)
+                    with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                        f.write(f'{fail_time}:<{childresponse.request.url}>:该网址解析xpath失败：<{e}>')
+                # 获取基本信息  3个表...
+                try:
+                    table_info_type1 = selector.xpath('//div[@class="byf_table_jibenxinxi"]/table[1]')
+                    for table_ele in table_info_type1:
+                        tr_ele = table_ele.xpath('tr')
+                        if len(tr_ele) > 1:
+                            for i in range(0, len(tr_ele)):
+                                detail_info = tr_ele[i].xpath('td')
+                                if len(detail_info) > 1:
+                                    for i in range(0, len(detail_info), 2):
+                                        try:
+                                            title = detail_info[i].xpath('text()')[0]
+                                        except IndexError:
+                                            title = ''
+                                        if i == len(detail_info) - 1:
+                                            value = ''
+                                        else:
+                                            try:
+                                                value = detail_info[i + 1].xpath('text()')[0]
+                                            except IndexError:
+                                                value = ''
+                                        agency_info.update({title: value})
+                    table_info_type2 = selector.xpath('//div[@class="byf_table_jibenxinxi"]/table[position()>1]')
+                    for table_info in table_info_type2:
+                        tr_ele = table_info.xpath('tr')
+                        if len(tr_ele) > 1:
+                            title = tr_ele[0]
+                            titles = title.xpath('td')
+                            titles = [i.xpath('text()')[0] for i in titles]
+                            for value_ele in tr_ele[1:]:
+                                values = value_ele.xpath('td')
+                                values = [i.xpath('text()')[0] if len(i.xpath('text()')) > 0 else '' for i in values]
+                                agency_info.update(dict(zip(titles, values)))
+                except Exception as e:
+                    fail_time = datetime.datetime.now()
+                    fail_time = trans_date_str(fail_time)
+                    with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                        f.write(f'{fail_time}:<{childresponse.request.url}>:该网址解析xpath失败：<{e}>')
+                with open('government_procurement/neimenggu/agency.txt', 'a', encoding='utf-8')as f:
+                    f.write(json.dumps(agency_info, ensure_ascii=False))
+                    f.write(',')
+
+        max_page = get_max_page()
+        ipdata = IpData()
+        msg = ipdata.get_ipdata()
+        proxies = ipdata.get_proxy(msg)
+        form_data = {
+            'byf_page': '1',  # 从首页获取最大页数
+            'page_size': '{}'.format(self.agency_page_size)
+        }
+        for page in range(1, max_page+1):
+            print('代理商第{}页'.format(page))
+            form_data['byf_page'] = str(page)
+            response = get_response_post(self.agency_url, headers, proxies, form_data, ipdata, msg)
+            if response:
+                info = response.json()
+                if len(info) > 1:
+                    agency_info = info[0]
+                    agency_ids = [i['ID'] for i in agency_info]
+                    for agency_id in agency_ids:
+                        agency_url = self.agency_base_url.format(agency_id)
+                        get_detail_info(agency_url, headers, proxies, ipdata, msg)  # 获取详情页数据
+                        time.sleep(3)
+
+    def get_broken_pormise(self):
+        pass
+
+
+class FuJianSpider:
+
+    supplier_base_url = 'http://www.ccgp-fujian.gov.cn/3500/suppliser/?page={}'
+
+    def get_max_page(self):
+        ipdata = IpData()
+        msg = ipdata.get_ipdata()
+        proxies = ipdata.get_proxy(msg)
+        index_url = self.supplier_base_url.format('1')
+        response = get_response_get(index_url, headers, proxies, ipdata, msg)
+        if response:
+            selector = etree.HTML(response.text, etree.HTMLParser())
+            page_ele = selector.xpath('//div[@class="pageGroup"]/button[8]/@onclick')  # 只有第一页才是第8个button
+            pattern_page = re.compile(r"javascript:location.href='\?page=(\d+)'")
+            if len(page_ele) > 0:
+                max_page = int(pattern_page.findall(page_ele[0])[0])
+                return max_page
+        return 0
+
+
+    # def get_supplier(self):  # 获取供应商信息
+    #     ipdata = IpData()
+    #     msg = ipdata.get_ipdata()
+    #     proxies = ipdata.get_proxy(msg)
+    #     max_page = self.get_max_page()
+    #     for page in range(1, max_page+1):
+    #         supplier_url = self.supplier_base_url.format(str(page))
+    #         response = get_response_get(supplier_url, headers, proxies, ipdata, msg)
+
+
+
+
+
+
 
 if __name__ == "__main__":
-    guangdongspider = GuangDongSpider()
+    guangdongspider = NeiMengGuSpider()
     print('start')
     # guangdongspider.get_broken_pormise()
     # print('失信名单获取完毕')
     # guangdongspider.get_agency()
     # print('代理商获取完毕')
+<<<<<<< HEAD
     guangdongspider.get_suppliers()
+=======
+    guangdongspider.get_agency()
+>>>>>>> cd41facd8601daea65f4e2091e13f7e2710df468
     print('供应商获取完毕')
