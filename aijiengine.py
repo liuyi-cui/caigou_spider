@@ -1,11 +1,10 @@
 import pymysql
 
-host = "localhost"
-port = 3306
-user = "root"
-passwd = "ary6769339jy"
+host = "cd-cdb-1usfgngk.sql.tencentcdb.com"
+port = 63767
+user = "jc_cuiliuyi"
+passwd = "Cui#61#ly"
 database = "smart_bid"
-
 
 
 class SqlEngine:  # 一个实例，完成一个功能后，完成新的功能需要重新开通实例，因为每个功能最后都close了

@@ -13,7 +13,8 @@ class SingleTon:
 
 
 class IpData(SingleTon):  # 同一时间只允许存在一个代理对象
-    url = ""  # 代理接口
+    url = "http://piping.mogumiao.com/proxy/api/get_ip_al?appKey=d35c2392d8374460ac122d742a98fbd7&" \
+          "count=3&expiryDate=0&format=1&newLine=2"  # 代理接口
     ipdata = {}  # 当url count为1的时候，存入该属性
     ipdatas = []  # 当url count大于1的时候，存入该属性
 
@@ -27,8 +28,7 @@ class IpData(SingleTon):  # 同一时间只允许存在一个代理对象
             elif len(ipdatas) > 1 and not isinstance(ipdatas, str):
                 self.ipdatas = ipdatas
             else:  # {'code': '3001', 'msg': 提取频繁请按照规定频率提取！'}
-                print(ipdatas)
-                time.sleep(3)
+                time.sleep(12)
                 self.load_ipdata()
         except Exception as e:
             print(f'网站获取代理ip失败：{e}')
@@ -41,6 +41,7 @@ class IpData(SingleTon):  # 同一时间只允许存在一个代理对象
 
     def get_ipdata(self):  # 获取ip
         if self.ipdata == {} and self.ipdatas == []:
+            time.sleep(10)
             self.load_ipdata()
         if self.ipdata != {}:
             return self.ipdata

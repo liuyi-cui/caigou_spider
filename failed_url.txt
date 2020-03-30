@@ -1,6 +1,9 @@
-http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=4&timeType=0, 该网站获取失败
-http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=4&timeType=0, 该网站获取失败
-2020-03-23 10:14:41:<http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=1&timeType=0>: 该网站获取失败: <503>
-2020-03-23 10:14:41:<http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=2&timeType=0>: 该网站获取失败: <503>
-2020-03-23 10:14:41:<http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=3&timeType=0>: 该网站获取失败: <503>
-2020-03-23 10:14:41:<http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=4&timeType=0>: 该网站获取失败: <503>
+
+2020-03-27 18:07:12:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/297e55e844bbbfb60144ded40d3d63a0.html>: 该网站获取失败: <200>
+2020-03-28 10:32:52:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-28 10:33:33:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-28 10:34:15:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-28 10:39:27:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-28 10:41:03:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-28 10:41:55:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-28 10:44:29:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
