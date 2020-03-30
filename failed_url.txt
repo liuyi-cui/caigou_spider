@@ -7,3 +7,54 @@
 2020-03-28 10:41:03:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
 2020-03-28 10:41:55:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
 2020-03-28 10:44:29:<http://www.ccgp-guangdong.gov.cn/organization/queryPerformOrgList.do>: 该网站获取失败: <403>
+2020-03-30 10:12:22:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016e166eddfd4647.html>: 该网站获取失败: <200>
+2020-03-30 10:12:25:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96db5c72b016db62ad5090670.html>: 该网站获取失败: <200>
+2020-03-30 10:12:32:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba967306d6a0167308968f60c36.html>: 该网站获取失败: <200>
+2020-03-30 10:12:36:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016e01ad4317544f.html>: 该网站获取失败: <200>
+2020-03-30 10:12:43:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96cb90ff1016cbc6394964057.html>: 该网站获取失败: <200>
+2020-03-30 10:12:46:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016e0613712f668e.html>: 该网站获取失败: <200>
+2020-03-30 10:12:49:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016df69732bf1168.html>: 该网站获取失败: <200>
+2020-03-30 10:13:12:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016df6ae289b1bbb.html>: 该网站获取失败: <200>
+2020-03-30 10:13:19:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96cb90ff1016cdce79bd61ed2.html>: 该网站获取失败: <200>
+2020-03-30 10:13:29:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba95993557b015997983b5d46c3.html>: 该网站获取失败: <200>
+2020-03-30 10:18:52:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016e166eddfd4647.html>: 该网站获取失败: <200>
+2020-03-30 10:18:55:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96db5c72b016db62ad5090670.html>: 该网站获取失败: <200>
+2020-03-30 10:18:59:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba967306d6a0167308968f60c36.html>: 该网站获取失败: <200>
+2020-03-30 10:19:02:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016e01ad4317544f.html>: 该网站获取失败: <200>
+2020-03-30 10:19:06:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96cb90ff1016cbc6394964057.html>: 该网站获取失败: <200>
+2020-03-30 10:19:09:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016e0613712f668e.html>: 该网站获取失败: <200>
+2020-03-30 10:19:12:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016df69732bf1168.html>: 该网站获取失败: <200>
+2020-03-30 10:19:16:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96decc131016df6ae289b1bbb.html>: 该网站获取失败: <200>
+2020-03-30 10:38:56:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba95cf69429015cf725d420569c.html>: 该网站获取失败: <200>
+2020-03-30 10:39:02:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba9611129f101611c4d56272f7a.html>: 该网站获取失败: <200>
+2020-03-30 11:00:43:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba962c2225b0162cc4d994a35da.html>: 该网站获取失败: <200>
+2020-03-30 11:15:22:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/297e55e84ce16ef7014d08859a682c7b.html>: 该网站获取失败: <200>
+2020-03-30 11:19:57:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba96a01cba0016a0b115fb2200d.html>: 该网站获取失败: <200>
+2020-03-30 11:37:52:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba9674dc93201674f1c664c1628.html>: 该网站获取失败: <200>
+2020-03-30 11:40:42:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba968e77fa6016904a67d740df4.html>: 该网站获取失败: <200>
+2020-03-30 11:46:08:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba95bf80faa015bfbff0a746f24.html>: 该网站获取失败: <200>
+2020-03-30 12:00:25:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba9562c996a0156303b25a822f4.html>: 该网站获取失败: <200>
+2020-03-30 12:07:31:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba9669cac550166a0f6921078d3.html>: 该网站获取失败: <200>
+2020-03-30 12:20:04:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba963eefbfe0163fc4190d70f31.html>: 该网站获取失败: <200>
+2020-03-30 13:13:53:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba952172a15015233f2fe905f78.html>: 该网站获取失败: <200>
+2020-03-30 13:34:21:<http://www.ccgp-guangdong.gov.cn/showPerOrg/orgId/40288ba95eed255b015f052a3b006eb0.html>: 该网站获取失败: <200>
+代理结束
+2020-03-30 14:21:10:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba871178bae0171209d82993809&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 14:40:13:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba871178bae01711adcccf06d59&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 14:40:13:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba871178bae01711adcccf06d59&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 14:52:41:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba871178bae017119cc0d3a4cc3&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 14:52:41:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba871178bae017119cc0d3a4cc3&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 15:39:19:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870f6470b01710aa6765536b8&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 15:39:19:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870f6470b01710aa6765536b8&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 15:50:08:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870f6470b01710604c8842488&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 15:50:08:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870f6470b01710604c8842488&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 16:36:32:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870e8c34d0170ed23e1c028e8&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 16:36:32:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870e8c34d0170ed23e1c028e8&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 17:04:32:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870dc68d00170e121107b52d2&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 17:04:32:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870dc68d00170e121107b52d2&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 17:23:50:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870be48570170d1f2dff57996&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 17:23:50:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870be48570170d1f2dff57996&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 17:31:10:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870be48570170cdcd3980237d&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 17:31:10:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870be48570170cdcd3980237d&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>
+2020-03-30 17:42:00:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870be48570170c7f179ff7bcb&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'xpath'>
+2020-03-30 17:42:00:<http://www.ccgp-guangdong.gov.cn/showSellerOrg/orgId/40288ba870be48570170c7f179ff7bcb&isFaSAShow=0/isBidSeller/0.html>: 该网站解析xpath: <'NoneType' object has no attribute 'append'>

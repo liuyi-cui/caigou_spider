@@ -172,19 +172,26 @@ class GuangDongSpider:
 
         def get_supplier_info(childresponse):  # 供应商详情页获取信息
             childselector = etree.HTML(childresponse.text, etree.HTMLParser())
-            tr_eleselector = childselector.xpath('/html/body/div[2]/table/tbody/tr')
-            def get_dict(tr):  # 针对详细页面的一行，获取相应信息
-                name = tr.xpath('th')
-                if name != []:
-                    for i in range(len(name)):
-                        name = name[i].xpath('text()')[0].strip()
-                        value = tr.xpath('td/text()')[i].strip()
-                        return {name: value}
-                else:
-                    return None
+            try:
+                tr_eleselector = childselector.xpath('/html/body/div[2]/table/tbody/tr')
+                def get_dict(tr):  # 针对详细页面的一行，获取相应信息
+                    name = tr.xpath('th')
+                    if name != []:
+                        for i in range(len(name)):
+                            name = name[i].xpath('text()')[0].strip()
+                            value = tr.xpath('td/text()')[i].strip()
+                            return {name: value}
+                    else:
+                        return None
 
-            supplier_info = list(map(get_dict, tr_eleselector))
-            return supplier_info
+                supplier_info = list(map(get_dict, tr_eleselector))
+                return supplier_info
+            except Exception as e:
+                fail_time = datetime.datetime.now()
+                fail_time = trans_date_str(fail_time)
+                with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                    f.write(f'{fail_time}:<{childresponse.request.url}>: 该网站解析xpath: <{e}>\n')
+                return None
 
         ipdata = IpData()
         msg = ipdata.get_ipdata()
@@ -197,7 +204,7 @@ class GuangDongSpider:
         max_page = self.get_max_page(self.supplier_url, proxies, form_data, ipdata, msg)
         headers['referer'] = 'http://www.ccgp-guangdong.gov.cn/organization/querySellerOrgList.do'
         headers['cookie'] = 'Ks8ae9gdPofpF0yrRJi1UrDsaM-hm8uARsgRyaj46O9l8dsmqJyJ!-1509577578'
-        for page in range(1, max_page+1):  # 从1循环到最大页数
+        for page in range(178, max_page+1):  # 从1循环到最大页数
             print('供应商第{}页'.format(page))
             form_data['pageIndex'] = page
             # headers['Content-Length'] = str(len(form_data))
@@ -205,21 +212,31 @@ class GuangDongSpider:
             if response:  # 解析供应商详情地址
                 selector = etree.HTML(response.text, etree.HTMLParser())
                 childurls = selector.xpath('//div[@class="m_m_cont"]//tr/td[3]/a')
+                real_childurls = []
                 for childurl in childurls:
                     childurl = self.base_url + childurl.xpath('@href')[0]
-                    childresponse = get_response_get(childurl, headers, proxies, ipdata, msg)
-                    if childresponse:
-                        print(childresponse.status_code)
-                        if childresponse.status_code != 200:
-                            print(childresponse.request.headers)
-                        supplier_info = get_supplier_info(childresponse)
-                        supplier_info.append({'url_source': childurl})
-                        with open('government_procurement/guangdong/supplier.txt', 'a', encoding='utf-8')as f:
-                            f.write(json.dumps(supplier_info, ensure_ascii=False))
-                            f.write(',')
+                    if childurl not in real_childurls:
+                        real_childurls.append(childurl)
+                        childresponse = get_response_get(childurl, headers, proxies, ipdata, msg)
+                        if childresponse:
+                            print('详情页：', childurl)
+                            try:
+                                supplier_info = get_supplier_info(childresponse)
+                                supplier_info.append({'url_source': childurl})
+                                with open('government_procurement/guangdong/supplier.txt', 'a', encoding='utf-8')as f:
+                                    f.write(json.dumps(supplier_info, ensure_ascii=False))
+                                    f.write(',')
+                            except Exception as e:
+                                fail_time = datetime.datetime.now()
+                                fail_time = trans_date_str(fail_time)
+                                with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                                    f.write(f'{fail_time}:<{childresponse.request.url}>: 该网站解析xpath: <{e}>\n')
+
+                        else:
+                            print('详情页信息获取失败')
+                        time.sleep(3)
                     else:
-                        print('详情页信息获取失败')
-                    time.sleep(3)
+                        continue
 
     def get_agency(self):
 
@@ -254,34 +271,41 @@ class GuangDongSpider:
         # headers['cookie'] = 'Ks8ae9gdPofpF0yrRJi1UrDsaM-hm8uARsgRyaj46O9l8dsmqJyJ!-1509577578'
         headers['cookie'] = 'hlce-4C6jnLFpch9x2dUya_0eBJR--2owaXh62fo9E2FQRFQfWrf!-1509577578'
         # for page in range(19, max_page+1):
-        for page in range(19, 114):
+        for page in range(28, 114):
             print('代理第{}页'.format(page))
             form_data['pageIndex'] = page
             # headers['Content-Length'] = str(len(form_data))
             response = get_response_post(self.agency_url, headers, proxies, form_data, ipdata, msg, trynum=0)
+            print('列表页：', form_data)
             if response:  # 解析代理商详情地址
                 selector = etree.HTML(response.text, etree.HTMLParser())
                 childurls = selector.xpath('//td[@align="center"]/a')
+                unduplicate_childurls = []
                 for childurl in childurls:
                     childurl = self.base_url + childurl.xpath('@href')[0]
-                    childresponse = get_response_get(childurl, headers, proxies, ipdata, msg)
-                    if childresponse:
-                        try:
-                            supplier_info = get_agency_info(childresponse)
-                            supplier_info.append({'url_source': childurl})
-                            with open('government_procurement/guangdong/agency.txt', 'a', encoding='utf-8')as f:
-                                f.write(json.dumps(supplier_info, ensure_ascii=False))
-                                f.write(',')
-                        except Exception as e:
-                            fail_time = datetime.datetime.now()
-                            fail_time = trans_date_str(fail_time)
-                            with open('failed_url.txt', 'a', encoding='utf-8')as f:
-                                f.write(f'{fail_time}:<{childresponse.request.url}>: 该网站获取失败: <{response.status_code}>\n')
-                        finally:
+                    if childurl not in unduplicate_childurls:
+                        unduplicate_childurls.append(childurl)
+                        childresponse = get_response_get(childurl, headers, proxies, ipdata, msg)
+                        print('详情页：', childurl)
+                        if childresponse:
+                            try:
+                                supplier_info = get_agency_info(childresponse)
+                                supplier_info.append({'url_source': childurl})
+                                with open('government_procurement/guangdong/agency.txt', 'a', encoding='utf-8')as f:
+                                    f.write(json.dumps(supplier_info, ensure_ascii=False))
+                                    f.write(',')
+                            except Exception as e:
+                                fail_time = datetime.datetime.now()
+                                fail_time = trans_date_str(fail_time)
+                                with open('failed_url.txt', 'a', encoding='utf-8')as f:
+                                    f.write(f'{fail_time}:<{childresponse.request.url}>: 该网站获取失败: <{response.status_code}>\n')
+                            finally:
+                                time.sleep(3)
+                        else:
+                            print('详情页信息获取失败')
                             time.sleep(3)
                     else:
-                        print('详情页信息获取失败')
-                        time.sleep(3)
+                        continue
 
             else:
                 print('代理商地址解析失败')
@@ -319,7 +343,7 @@ if __name__ == "__main__":
     print('start')
     # guangdongspider.get_broken_pormise()
     # print('失信名单获取完毕')
-    guangdongspider.get_agency()
-    print('代理商获取完毕')
-    # guangdongspider.get_suppliers()
-    # print('供应商获取完毕')
+    # guangdongspider.get_agency()
+    # print('代理商获取完毕')
+    guangdongspider.get_suppliers()
+    print('供应商获取完毕')
