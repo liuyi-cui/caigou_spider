@@ -4,5 +4,8 @@ __pycache__/
 *.lprof
 *.prof
 venv/
-aijiengine.py
-proxy.py
+/aijiengine.py
+/proxy.py
+*.txt
+goverment_procurement
+*.html
